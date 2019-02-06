@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Arduino Photoresister with Johnny Five, Express.js and Sockets.io</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Tenor+Sans" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <!-- include the sockets.io CDN -->
+  <style>
+    body {
+      background: whitesmoke;
+    }
+    .box {
+      margin: 5% 0;
+      display: flex;
+      width: auto;
+      height: auto;
+      text-align: center;
+      align-items: center;
+      transform: translateX(-700px);
+      /* font-size: 4em; */
+      /* line-height: 3em; */
+      /* border-radius: 50%; */
+      /* background-color: black; */
+      transition: all 2s cubic-bezier(.87, -.41, .19, 1.44);
+
+    }
+
+    .fa-star {
+      font-size: 10em;
+      color: #ff9f80;
+      transform: rotate(0);
+      transition: all 2s cubic-bezier(.87, -.41, .19, 1.44);
+    }
+
+    .moved {
+      transform: translateX(200px);
+      transition: all 2s cubic-bezier(.87, -.41, .19, 1.44);
+    }
+
+    .rotated {
+      color: #80bfff;
+      transform: rotate(360deg);
+      transition: all 2s cubic-bezier(.87, -.41, .19, 1.44);
+    }
+
+    .hi {
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 6em;
+      width: 55%;
+      overflow: hidden;
+      color: whitesmoke;
+      transition: all 1s ease-in;
+    }
+
+    .expanded {
+      overflow: visible;
+      color: #676565;
+      /* transition: all 2s cubic-bezier(ease-out); */
+    }
+
+    .qr-wrapper {
+      text-align: center;
+    }
+
+    .scan-me {
+      width: 0;
+      color: whitesmoke;
+      transition: all 2s ease-in-out;
+      margin: 0 auto;
+      font-family: monospace;
+      font-size: 18px;
+    }
+
+    .scan-me-appear {
+      width: 450px;
+      color: #676565;
+    }
+
+    .qr {
+      width: 0;
+      transition: all 2s ease-in-out;
+    }
+    
+    .qr-appear {
+      width: 450px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+  <!-- Start of 'client-side' javascript -->
+  <div class="box">
+    <div class="hi">Hi, I'm Kate! ( ･-･)ﾉ </div>
+    <i class="fas fa-star"></i>
+  </div>
+  <div class="qr-wrapper">
+    <div class="scan-me">[ scan me ]</div>
+    <img class="qr" src="qr-code.svg" alt="qr-code">
+  </div>
+
+
+  <script>
+    let socket = io();
+    const switchOnOff = false
+
+    // <!--  -->
+    const icon = document.querySelector('.fa-star')
+    const box = document.querySelector('.box')
+    const hi = document.querySelector('.hi')
+    const qr = document.querySelector('.qr')
+    const scanMe = document.querySelector('.scan-me')
+
+
+
+    socket.on("motion", function (val) {
+      icon.classList.toggle('rotated')
+      box.classList.toggle('moved')
+      hi.classList.toggle('expanded')
+      qr.classList.toggle('qr-appear')
+      scanMe.classList.toggle('scan-me-appear')
+      
+    })
+
+  </script>
+</body>
+
+</html>
